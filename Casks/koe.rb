@@ -12,7 +12,14 @@ cask "koe" do
   auto_updates true
   
   app "Koe.app"
-  
+
+  postflight do
+    # Bypass Gatekeeper quarantine
+    system_command "/usr/bin/xattr",
+                   args: ["-rd", "com.apple.quarantine", "#{appdir}/Koe.app"],
+                   sudo: false
+  end
+
   uninstall quit: "com.zaobdev.koe"
   
   zap trash: [
